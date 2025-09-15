@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dealership
 
-## Getting Started
+Marketplace simple para publicar y gestionar vehículos (Next.js App Router + Prisma + NextAuth + Tailwind v4 + Cloudinary).
 
-First, run the development server:
+## Características
+- Catálogo con búsqueda rápida y filtros avanzados (marca, modelo, año, precio, tipo).
+- Detalle de vehículo con galería y JSON-LD para SEO.
+- Contacto: envío de consulta in-app y WhatsApp Click-to-Chat (env-based).
+- Panel: CRUD de vehículos, gestión de fotos (orden, subida), leads.
+- UI con utilidades semánticas (bg-surface, text-muted, border-border) y skeletons.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Stack
+- Next.js 15 (App Router), React 19
+- Prisma (MySQL)
+- next-auth (JWT)
+- Tailwind CSS v4
+- Cloudinary (imágenes)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Estructura
+- `src/app` páginas (público y panel) y API routes.
+- `src/lib` utilidades (prisma, cloudinary, seo, utils).
+- `prisma/` schema y migraciones.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Requisitos
+- Node.js 20+
+- Base de datos MySQL (o compatible)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Variables de entorno
+Crea `.env.local` a partir de `.env.example`:
+- `DATABASE_URL` (cadena de conexión MySQL)
+- `NEXTAUTH_SECRET` (valor aleatorio seguro)
+- `NEXTAUTH_URL` (por ejemplo http://localhost:3000)
+- `NEXT_PUBLIC_WHATSAPP_NUMBER` (ej. 54911XXXXXXX)
+- Cloudinary: `CLOUDINARY_URL` o variables individuales de cuenta
 
-## Learn More
+## Uso
+1) Instalar deps
+- npm install
 
-To learn more about Next.js, take a look at the following resources:
+2) Generar Prisma Client y aplicar migraciones (dev)
+- npx prisma generate
+- npx prisma migrate dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3) Ejecutar en desarrollo
+- npm run dev
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4) Build de producción
+- npm run build
+- npm start
 
-## Deploy on Vercel
+## Scripts
+- `dev`, `build`, `start`
+- `lint` (puede requerir ajustes de versión de ESLint/Next)
+- `typecheck` (TS sin emitir)
+- `prisma:generate`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Despliegue
+- Ideal para Vercel. Define las envs en el dashboard.
+- Asegura que la DB esté accesible desde el entorno de producción.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Roadmap
+- Tests básicos (utils y API).
+- CI: lint/typecheck/build obligatorio en PRs.
+- Docs de contribución e imágenes demo.
+
+## Licencia
+MIT
