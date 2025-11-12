@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ShieldCheck, Wallet, Clock } from "lucide-react";
+import Hero from "../app/assets/img/hero.jpg";
+import { ShieldCheck, Wallet, Clock, Star, MessageCircle, Filter, Phone, CarFront, Truck } from "lucide-react";
 import TestimonialsCarousel from "./_components/testimonials-carousel";
 import { prisma } from "@/lib/prisma";
 import { formatCurrency } from "@/lib/utils";
@@ -22,38 +23,62 @@ export default async function Home() {
     }),
   ]);
 
+
   return (
     <div className="space-y-12">
       {/* Hero */}
       <section
-        className="rounded-2xl border p-8 shadow-sm md:p-12"
-        style={{
-          background:
-            "radial-gradient(60% 80% at 15% 0%, color-mix(in oklab, var(--primary) 16%, transparent) 0%, transparent 70%), " +
-            "linear-gradient(180deg, color-mix(in oklab, var(--accent) 12%, transparent) 0%, transparent 55%), var(--surface)",
-          borderColor: "var(--border)",
-        }}
+        className="relative overflow-hidden rounded-3xl border p-6 shadow-sm sm:p-12 bg-surface border-border"
       >
-        <div className="max-w-3xl">
-          <h1 className="text-4xl font-bold leading-tight md:text-5xl" style={{ textShadow: "0 1px 0 rgba(255,255,255,0.4)" }}>
-            Encontrá tu próximo auto usado
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <Image
+            src={Hero}
+            alt="Auto en exhibición, fondo de concesionaria iluminada"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[center_35%] sm:object-center"
+          />
+          {/* Degradado oscuro superior/inferior para asegurar contraste del texto */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.14) 38%, rgba(0,0,0,0.04) 75%)",
+            }}
+          />
+        </div>
+        <div className="relative z-10 max-w-4xl">
+          <h1 className="text-balance text-3xl font-bold leading-tight sm:text-4xl md:text-5xl">
+            Encontrá tu próximo auto con confianza
           </h1>
-          <p className="mt-2 text-lg text-muted">
-            Explorá miles de publicaciones con fotos y filtros avanzados.
+          <p className="mt-2 text-base text-muted sm:text-lg">
+            Buscá por marca, modelo o año. Filtrá por precio, tipo y más.
           </p>
-          <form action="/catalogo" method="get" className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-6">
-            <input className="input md:col-span-5" name="q" placeholder="Buscá por marca o modelo (ej. Toyota, Gol)" />
-            <button className="btn btn-primary md:col-span-1" type="submit">Buscar</button>
+          <form action="/catalogo" method="get" className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-6">
+            <input className="input h-12 sm:col-span-5 bg-white/90 border-white/60 backdrop-blur supports-backdrop-blur:backdrop-blur" name="q" placeholder="Ej. Corolla, Onix, Hilux…" />
+            <div className="flex gap-2 sm:col-span-1">
+              {/* <Link href="/catalogo?showFilters=1" className="btn btn-outline w-full sm:w-auto">
+                                <Filter className="h-4 w-4" />
+                                <span className="sr-only sm:not-sr-only sm:ml-1">Filtros</span>
+                            </Link> */}
+              <button className="btn btn-primary w-full sm:w-auto" type="submit">Buscar</button>
+            </div>
           </form>
-  <div className="mt-4 text-sm text-muted">
-            ¿Sos concesionaria? Administrá tu inventario desde el{" "}
-            <Link
-        href="/panel"
-  className="underline text-primary-600"
-            >
-              panel
-            </Link>
-            .
+
+          <div className="mt-5 grid gap-3 text-sm sm:grid-cols-3">
+            <div className="rounded-lg border p-3 bg-white/90 border-white/60 shadow-sm backdrop-blur supports-backdrop-blur:backdrop-blur">
+              <div className="flex items-center gap-2 font-medium"><Star className="h-4 w-4" /> +500 clientes felices</div>
+              <p className="mt-1 text-muted">Experiencia validada por nuestra comunidad.</p>
+            </div>
+            <div className="rounded-lg border p-3 bg-white/90 border-white/60 shadow-sm backdrop-blur supports-backdrop-blur:backdrop-blur">
+              <div className="flex items-center gap-2 font-medium"><Wallet className="h-4 w-4" /> Financiación flexible</div>
+              <p className="mt-1 text-muted">Opciones a tu medida, sin letra chica.</p>
+            </div>
+            <div className="rounded-lg border p-3 bg-white/90 border-white/60 shadow-sm backdrop-blur supports-backdrop-blur:backdrop-blur">
+              <div className="flex items-center gap-2 font-medium"><ShieldCheck className="h-4 w-4" /> Revisión mecánica</div>
+              <p className="mt-1 text-muted">Estado y documentación verificados.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -61,7 +86,7 @@ export default async function Home() {
 
       {/* Categorías rápidas */}
       <section>
-  <h2 className="text-2xl font-semibold">Explorar por categoría</h2>
+        <h2 className="text-2xl font-semibold">Explorar por categoría</h2>
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
             { label: "Sedán", q: "sedan" },
@@ -189,12 +214,34 @@ export default async function Home() {
         </ul>
       </section>
 
-  <TestimonialsCarousel />
+      {/* ¿Por qué elegirnos? */}
+      <section>
+        <h2 className="text-2xl font-semibold">¿Por qué elegirnos?</h2>
+        <div className="mt-5 grid gap-3 sm:grid-cols-3">
+          {[
+            { t: "Transparencia", d: "Sin comisión oculta ni letra chica.", Icon: ShieldCheck },
+            { t: "Soporte humano", d: "Hablá por WhatsApp cuando quieras.", Icon: MessageCircle },
+            { t: "Clientes felices", d: "+500 reseñas positivas.", Icon: Star },
+          ].map(({ t, d, Icon }, i) => (
+            <div key={i} className="group rounded-2xl border p-5 shadow-sm bg-surface border-border transition-all hover:-translate-y-0.5 hover:shadow-md">
+              <div className="flex items-start gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-primary-tint text-primary"><Icon className="h-5 w-5" /></span>
+                <div>
+                  <h3 className="font-semibold">{t}</h3>
+                  <p className="mt-1 text-sm text-muted">{d}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <TestimonialsCarousel />
 
       {/* Footer marketing */}
-  <section className="rounded-2xl p-6 text-center bg-[color-mix(in_oklab,var(--surface)_85%,var(--border))]">
+      <section className="rounded-2xl p-6 text-center bg-[color-mix(in_oklab,var(--surface)_85%,var(--border))]">
         <p>¿Querés vender tu auto?</p>
-  <p className="mt-1 text-sm text-muted">Contactanos para tasarlo y publicarlo en minutos.</p>
+        <p className="mt-1 text-sm text-muted">Contactanos para tasarlo y publicarlo en minutos.</p>
         <Link href="/panel" className="btn btn-primary mt-3 inline-block">Publicar ahora</Link>
       </section>
     </div>
